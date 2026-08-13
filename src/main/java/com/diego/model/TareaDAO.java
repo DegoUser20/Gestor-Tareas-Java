@@ -102,7 +102,28 @@ public class TareaDAO {
     }
 
     //Instancia para eliminar una tarea
+    public void eliminarTareas(int id, String nombre, String descripcion, LocalDateTime fecha) {
+        String sql = "DELETE FROM tareas WHERE id = ?";
 
+        try(
+                Connection conexion = Conexion.conectar();
+                PreparedStatement ps = conexion.prepareStatement(sql);
+                ) {
+            ps.setString(1, nombre);
+            ps.setString(2, descripcion);
+            ps.setTimestamp(3, Timestamp.valueOf(fecha));
+            ps.setInt(4, id);
+
+            int filasActualizadas = ps.executeUpdate();
+
+            if (filasActualizadas > 0){
+                System.out.println("Tarea eliminada con Exito");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //Eliminar un método dentro de 24 horas
 }
