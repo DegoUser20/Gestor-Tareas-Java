@@ -46,7 +46,7 @@ public class TareaDAO {
     }
 
     //Instancia para crear Tareas Nuevas
-    public void crearTareas(String nombre, String descripcion, LocalDateTime fecha) {
+    public void crearTareas(String nombre, String descripcion) {
         String sql = "Insert into tareas (nombre, descripcion) VALUES (?,?,?)";
 
         try(
@@ -55,7 +55,7 @@ public class TareaDAO {
         ) {
             ps.setString(1, nombre);
             ps.setString(2, descripcion);
-            ps.setTimestamp(3, Timestamp.valueOf(fecha));
+
 
             int filasInsertadas = ps.executeUpdate();
 

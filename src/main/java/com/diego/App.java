@@ -37,8 +37,6 @@ public class App
         int opcion;
 
         System.out.println(" === Bienvenidos a la lista de Tareas ===");
-
-
         do {
             System.out.println("\n---Menú---");
             System.out.println("1. Listar Tareas ");
@@ -59,7 +57,20 @@ public class App
                     break;
 
                 case 2:
-                    System.out.println("Agregando nueva tarea");
+                    System.out.println("=== Agregando una nueva tarea ===");
+                    System.out.print("Escriba un nombre: ");
+                    String nombre = entrada.nextLine();
+
+                    System.out.print("Escriba una descripcion: ");
+                    String descripcion = entrada.nextLine();
+
+                    tareaDAO.crearTareas(nombre, descripcion);
+                    break;
+
+                case 3:
+                    System.out.println(" === Lista de Tareas realizadas === ");
+
+                    List<tareaHechas>
 
             }
 
