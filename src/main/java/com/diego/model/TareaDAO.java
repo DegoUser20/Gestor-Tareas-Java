@@ -2,10 +2,7 @@ package com.diego.model;
 
 import com.diego.Conexion;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -125,5 +122,32 @@ public class TareaDAO {
         }
     }
 
-    //Eliminar un método dentro de 24 horas
+    //Eliminar un método dentro de 24 horas luego de ser completada la tarea
+    public void eliminarTiempo(int id, LocalDateTime fechaCompletada) {
+
+        String sql = "DELETE FROM tareas_hechas WHERE id = ? AND fecha_completada <= ? ";
+
+        try(
+                Connection conexion = Conexion.conectar();
+                PreparedStatement ps = conexion.prepareStatement(sql);
+                ) {
+
+            LocalDateTime limite = LocalDateTime.now().minusHours(24);
+
+            ps.setInt(1, id);
+            ps.setTimestamp(2, Timestamp.valueOf(limite));
+
+            int filasEliminadas = ps.executeUpdate();
+
+            if (filasEliminadas > 0) {
+                System.out.println("Tarea Eliminar correctamente");
+            } else {
+                System.out.println("Aún no ha pasado las 24 horas");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
