@@ -150,4 +150,37 @@ public class TareaDAO {
         }
 
     }
+
+    //Ver lista de tareas hechas
+    public List<Tarea> TareasHechas() {
+
+        List<Tarea> tareasHechas = new ArrayList<>();
+
+        String sql = "Select id, nombre, descripcion FROM tareas_hechas";
+
+
+        try(
+                Connection conexion = Conexion.conectar();
+                PreparedStatement ps = conexion.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery();
+
+        ) {
+
+            while (rs.next()) {
+                Tarea tarea = new Tarea();
+                tarea.setId(rs.getInt("id"));
+                tarea.setNombre(rs.getString("Nombre"));
+                tarea.setDescripcion(rs.getString("descripcion"));
+                tarea.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
+
+                tareasHechas.add(tarea);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tareasHechas;
+    }
+
 }

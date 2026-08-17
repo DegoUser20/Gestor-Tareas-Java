@@ -2,6 +2,7 @@ package com.diego;
 
 import com.diego.model.Tarea;
 import com.diego.model.TareaDAO;
+import com.diego.model.Tarea_Hechas;
 
 import java.sql.*;
 import java.util.List;
@@ -70,7 +71,7 @@ public class App
                 case 3:
                     System.out.println(" === Lista de Tareas realizadas === ");
 
-                    List<tareaHechas>
+                    List<Tarea_Hechas> tareasHechas = tareaDAO.
 
             }
 
