@@ -71,8 +71,11 @@ public class App
                 case 3:
                     System.out.println(" === Lista de Tareas realizadas === ");
 
-                    List<Tarea_Hechas> tareasHechas = tareaDAO.
-
+                    List<Tarea> hechas = tareaDAO.TareasHechas();
+                    for(Tarea t: hechas){
+                        System.out.println(t.getId() + " + " + t.getNombre() + " + " + t.getDescripcion() + " + " + t.getFecha());
+                    }
+                    break;
             }
 
         } while (opcion != 4);
