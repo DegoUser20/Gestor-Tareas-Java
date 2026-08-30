@@ -109,9 +109,9 @@ public class TareaDAO {
 
             ps.setInt(1, id);
 
-            int filasActualizadas = ps.executeUpdate();
+            int filasEliminadas = ps.executeUpdate();
 
-            if (filasActualizadas > 0){
+            if (filasEliminadas > 0){
                 System.out.println("Tarea eliminada con Exito");
             }
 
