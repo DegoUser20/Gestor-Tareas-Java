@@ -99,7 +99,7 @@ public class TareaDAO {
     }
 
     //Instancia para eliminar una tarea
-    public void eliminarTareas(int id, String nombre, String descripcion, LocalDateTime fecha) {
+    public void eliminarTareas(int id) {
         String sql = "DELETE FROM tareas WHERE id = ?";
 
         try(
@@ -150,11 +150,11 @@ public class TareaDAO {
     }
 
     //Ver lista de tareas hechas
-    public List<Tarea> TareasHechas() {
+    public List<Tarea_Hechas> obtenerTareasHechas() {
 
-        List<Tarea> tareasHechas = new ArrayList<>();
+        List<Tarea_Hechas> tareasHechas = new ArrayList<>();
 
-        String sql = "Select id, nombre, descripcion FROM tareas_hechas";
+        String sql = "Select id, nombre, descripcion, fecha_completada FROM tareas_hechas";
 
 
         try(
@@ -165,11 +165,11 @@ public class TareaDAO {
         ) {
 
             while (rs.next()) {
-                Tarea tarea = new Tarea();
+                Tarea_Hechas tarea = new Tarea_Hechas();
                 tarea.setId(rs.getInt("id"));
                 tarea.setNombre(rs.getString("Nombre"));
                 tarea.setDescripcion(rs.getString("descripcion"));
-                tarea.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
+                tarea.setFecha_completada(rs.getTimestamp("fecha_completada").toLocalDateTime());
 
                 tareasHechas.add(tarea);
             }
