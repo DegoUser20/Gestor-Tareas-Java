@@ -47,7 +47,7 @@ public class TareaDAO {
 
     //Instancia para crear Tareas Nuevas
     public void crearTareas(String nombre, String descripcion) {
-        String sql = "Insert into tareas (nombre, descripcion) VALUES (?,?,?)";
+        String sql = "Insert into tareas (nombre, descripcion) VALUES (?,?)";
 
         try(
             Connection conexion = Conexion.conectar();
@@ -64,7 +64,7 @@ public class TareaDAO {
             }
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
     }
@@ -72,7 +72,7 @@ public class TareaDAO {
     //Instancia para Editar una tarea
     public void editarTareas(int id, String nombre, String descripcion, LocalDateTime fecha){
 
-        String sql = "UPDATE tareas SET nombre = ?, descripcion = ?, fecha = ?, WHERE id = ?";
+        String sql = "UPDATE tareas SET nombre = ?, descripcion = ?, fecha = ? WHERE id = ?";
 
         try(
             Connection conexion = Conexion.conectar();
@@ -106,10 +106,8 @@ public class TareaDAO {
                 Connection conexion = Conexion.conectar();
                 PreparedStatement ps = conexion.prepareStatement(sql);
                 ) {
-            ps.setString(1, nombre);
-            ps.setString(2, descripcion);
-            ps.setTimestamp(3, Timestamp.valueOf(fecha));
-            ps.setInt(4, id);
+
+            ps.setInt(1, id);
 
             int filasActualizadas = ps.executeUpdate();
 
