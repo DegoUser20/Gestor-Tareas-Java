@@ -2,6 +2,10 @@ package com.diego.model;
 
 import com.diego.Conexion;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -70,9 +74,9 @@ public class TareaDAO {
     }
 
     //Instancia para Editar una tarea
-    public void editarTareas(int id, String nombre, String descripcion, LocalDateTime fecha){
+    public void editarTareas(int id, String nombre, String descripcion){
 
-        String sql = "UPDATE tareas SET nombre = ?, descripcion = ?, fecha = ? WHERE id = ?";
+        String sql = "UPDATE tareas SET nombre = ?, descripcion = ? WHERE id = ?";
 
         try(
             Connection conexion = Conexion.conectar();
@@ -81,8 +85,7 @@ public class TareaDAO {
         ) {
             ps.setString(1, nombre);
             ps.setString(2, descripcion);
-            ps.setTimestamp(3, Timestamp.valueOf(fecha));
-            ps.setInt(4, id);
+            ps.setInt(3, id);
 
             int filasActualizar = ps.executeUpdate();
 
@@ -149,36 +152,22 @@ public class TareaDAO {
 
     }
 
-    //Ver lista de tareas hechas
-    public List<Tarea_Hechas> obtenerTareasHechas() {
+    //Imprimir datos mediante fichero
+    public void imprimirDatos(List<Tarea> tareas) {
+        File fichero = new File("C:/Users/Dego/Desktop/EjerciciosJAVA/ListaTareaJAVA/ListaTarea/src/main/java/com/diego/fichero/tareas.txt");
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(fichero))) {
 
-        List<Tarea_Hechas> tareasHechas = new ArrayList<>();
-
-        String sql = "Select id, nombre, descripcion, fecha_completada FROM tareas_hechas";
-
-
-        try(
-                Connection conexion = Conexion.conectar();
-                PreparedStatement ps = conexion.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery();
-
-        ) {
-
-            while (rs.next()) {
-                Tarea_Hechas tarea = new Tarea_Hechas();
-                tarea.setId(rs.getInt("id"));
-                tarea.setNombre(rs.getString("Nombre"));
-                tarea.setDescripcion(rs.getString("descripcion"));
-                tarea.setFecha_completada(rs.getTimestamp("fecha_completada").toLocalDateTime());
-
-                tareasHechas.add(tarea);
+            for(Tarea t : tareas) {
+                bw.write(t.getId() + " - " + t.getNombre() + " - " + t.getDescripcion());
+                bw.newLine();
             }
+            System.out.println("Tareas guardadas en el fichero.");
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Ocurrio un error al momento de crear/cargar el fichero.");
         }
 
-        return tareasHechas;
     }
 
 }

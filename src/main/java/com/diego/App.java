@@ -2,13 +2,9 @@ package com.diego;
 
 import com.diego.model.Tarea;
 import com.diego.model.TareaDAO;
-import com.diego.model.Tarea_Hechas;
 
 import java.sql.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.Executor;
 
 /**
@@ -35,51 +31,87 @@ public class App
 
         Scanner entrada = new Scanner(System.in);
         TareaDAO tareaDAO = new TareaDAO();
-        int opcion;
+        mostrarMenu(entrada, tareaDAO);
+    }
 
-        System.out.println(" === Bienvenidos a la lista de Tareas ===");
+    public static void mostrarMenu(Scanner entrada, TareaDAO tareaDao) {
+        int opcion;
         do {
-            System.out.println("\n---Menú---");
-            System.out.println("1. Listar Tareas ");
-            System.out.println("2. Crear Tareas ");
-            System.out.println("3. Ver tareas realizadas");
-            System.out.println("4. Salir");
-            System.out.print("Elige una opción: ");
+            System.out.println("===============================");
+            System.out.println("       Gestor de Tareas        ");
+            System.out.println("===============================");
+            System.out.println();
+
+            System.out.println("1. Mostrar Tareas ");
+            System.out.println("2. Crear Tarea");
+            System.out.println("3. Editar una tarea");
+            System.out.println("4. Borrar una tarea");
+            System.out.println("5. Imprimir tareas en fichero");
+            System.out.println("0. Salir");
+            System.out.println("Elije una opción");
 
             opcion = Integer.parseInt(entrada.nextLine());
 
             switch (opcion) {
                 case 1:
-                    System.out.println("Lista de tareas pendientes");
-                    List<Tarea> tareas = tareaDAO.obtenerTareas();
-                    for(Tarea t: tareas){
-                        System.out.println(t.getId() +  " - " + t.getNombre() + " - " + t.getFecha());
+                    System.out.println("Mostrar tareas disponibles... ");
+                    List<Tarea> tareas = tareaDao.obtenerTareas();
+                    for (Tarea t: tareas) {
+                        System.out.println(t.getId() + " - " + t.getNombre() + " - " + t.getDescripcion() + " - " +  t.getFecha());
                     }
                     break;
 
                 case 2:
-                    System.out.println("=== Agregando una nueva tarea ===");
-                    System.out.print("Escriba un nombre: ");
+                    System.out.println("Crear una tarea nueva... ");
+                    System.out.println();
+
+                    System.out.println("Escribe un nombre: ");
                     String nombre = entrada.nextLine();
 
-                    System.out.print("Escriba una descripcion: ");
+                    System.out.println("Escribe una descripción: ");
                     String descripcion = entrada.nextLine();
 
-                    tareaDAO.crearTareas(nombre, descripcion);
-                    break;
+                    tareaDao.crearTareas(nombre, descripcion);
 
+                    break;
                 case 3:
-                    System.out.println(" === Lista de Tareas realizadas === ");
+                    System.out.println("Editar una tarea existente... ");
 
-                    List<Tarea> hechas = tareaDAO.TareasHechas();
-                    for(Tarea t: hechas){
-                        System.out.println(t.getId() + " + " + t.getNombre() + " + " + t.getDescripcion() + " + " + t.getFecha());
-                    }
+                    System.out.println("Selecciona el id de la tarea por favor:");
+                    int id = Integer.parseInt(entrada.nextLine());
+
+                    System.out.println("Escribe el nombre para cambiarlo.");
+                    nombre = entrada.nextLine();
+
+                    System.out.println("Escribe la descripcion para cambiarlo.");
+                    descripcion = entrada.nextLine();
+
+                    tareaDao.editarTareas(id, nombre, descripcion);
+
                     break;
+                case 4:
+                    System.out.println("Eliminar una tarea... ");
+
+                    System.out.println("Selecciona la tarea a eliminar: ");
+                    id = Integer.parseInt(entrada.nextLine());
+                    tareaDao.eliminarTareas(id);
+
+                    break;
+                case 5:
+                    System.out.println("Leyendo tareas existentes.");
+                    List<Tarea> tareasFichero = tareaDao.obtenerTareas();
+
+                    System.out.println("Imprimiendo tareas en fichero... ");
+                    tareaDao.imprimirDatos(tareasFichero);
+                    break;
+
+                case 0:
+                    System.out.println("Programa finalizado...");
+                    break;
+
+                default:
+                    System.out.println("Opción no válida...");
             }
-
-        } while (opcion != 4);
-
-
+        } while(opcion != 0);
     }
 }
