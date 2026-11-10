@@ -18,7 +18,7 @@ public class TareaDAO {
 
         List<Tarea> tareas = new ArrayList<>();
 
-        String sql = "Select id, nombre, fecha, descripcion FROM tareas";
+        String sql = "Select id, nombre, fecha, descripcion, completada FROM tareas";
 
         try(
                 Connection conexion = Conexion.conectar();
@@ -38,7 +38,7 @@ public class TareaDAO {
                 tarea.setDescripcion(
                         rs.getString("Descripcion")
                 );
-
+                tarea.setCompletada(rs.getBoolean("completada"));
                 tareas.add(tarea);
             }
 
@@ -172,6 +172,25 @@ public class TareaDAO {
             e.printStackTrace();
         }
 
+    }
+
+    //Método para completar una tarea
+    public boolean completarTarea(int id) {
+        String sql = "UPDATE tareas set completada = true where id = ?";
+
+        try(
+                Connection conexion = Conexion.conectar();
+                PreparedStatement ps = conexion.prepareStatement(sql)
+                ) {
+
+            ps.setInt(1, id);
+            int filas = ps.executeUpdate();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     //Imprimir datos mediante fichero
