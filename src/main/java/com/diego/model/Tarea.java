@@ -10,7 +10,7 @@ public class Tarea {
     private String nombre;
     private LocalDateTime fecha;
     private String descripcion;
-
+    private boolean completada;
 
     public int getId() {
         return id;
@@ -42,5 +42,13 @@ public class Tarea {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public boolean isCompletada() {
+        return completada;
+    }
+
+    public void setCompletada(boolean completada) {
+        this.completada = completada;
     }
 }

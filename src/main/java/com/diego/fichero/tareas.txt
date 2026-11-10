@@ -1,3 +1,5 @@
 1 - Estudiar Programación - Estudiar conceptos de Java, Maven, SQL con MySQL y el framework SpringBoot.
 2 - Buscar practicas Informática - Buscar en internet prácticas o trabajo referente a Informática
 3 - comida para el perro - comprar y darle de comer a la mascota.
+4 - Estudiar python - Estudiar python y de ello, hacer un pequeño proyecto con lo aprendido.
+5 - Ir al aereopuerto - Ir al aereopuerto a recoger a mi familiar con anticipación.

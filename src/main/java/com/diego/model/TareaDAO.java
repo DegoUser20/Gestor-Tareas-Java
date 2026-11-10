@@ -53,6 +53,17 @@ public class TareaDAO {
     public void crearTareas(String nombre, String descripcion) {
         String sql = "Insert into tareas (nombre, descripcion) VALUES (?,?)";
 
+        //Validación: Comprobar que nombre y descripcion no sean vacíos
+        if(nombre == null || nombre.trim().isEmpty() && descripcion == null || descripcion.trim().isEmpty()) {
+            System.out.println("Nombre y descripcion no pueden estar vacios vacios.");
+            return;
+        }
+
+        //Comprobar que el nombre a corregir no sobrepase los 30 caracteres
+        if(nombre.length() > 31) {
+            System.out.println("El nombre no puede sobrepasar el límite de caracteres.");
+        }
+
         try(
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
@@ -78,6 +89,18 @@ public class TareaDAO {
 
         String sql = "UPDATE tareas SET nombre = ?, descripcion = ? WHERE id = ?";
 
+        //Validación: Comprobar que nombre y descripción no sean vacíos.
+        if(nombre == null || nombre.trim().isEmpty() && descripcion == null || descripcion.trim().isEmpty()) {
+            System.out.println("Editar tarea: no puede editar una tarea con campos vacios");
+            return;
+        }
+
+        //Comprobar que el nombre pase de los 30 caracteres
+        if(nombre.length() > 31) {
+            System.out.println("El nombre no puede sobrepasar el limite de caracteres (30)");
+            return;
+        }
+
         try(
             Connection conexion = Conexion.conectar();
             PreparedStatement ps = conexion.prepareStatement(sql);
@@ -92,9 +115,8 @@ public class TareaDAO {
             if (filasActualizar > 0) {
                 System.out.println("Tarea Actualizada Correctamente");
             } else {
-
+                System.out.println("No existe tarea con dicho id.");
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();
