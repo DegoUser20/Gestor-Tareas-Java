@@ -47,6 +47,7 @@ public class App
             System.out.println("3. Editar una tarea");
             System.out.println("4. Borrar una tarea");
             System.out.println("5. Imprimir tareas en fichero");
+            System.out.println("6. Completar tarea");
             System.out.println("0. Salir");
             System.out.println("Elije una opción");
 
@@ -57,7 +58,7 @@ public class App
                     System.out.println("Mostrar tareas disponibles... ");
                     List<Tarea> tareas = tareaDao.obtenerTareas();
                     for (Tarea t: tareas) {
-                        System.out.println(t.getId() + " - " + t.getNombre() + " - " + t.getDescripcion() + " - " +  t.getFecha());
+                        System.out.println(t.getId() + " - " + t.getNombre() + " - " + t.getDescripcion() + " - " +  t.getFecha() + " - " + t.isCompletada());
                     }
                     break;
 
@@ -103,6 +104,17 @@ public class App
 
                     System.out.println("Imprimiendo tareas en fichero... ");
                     tareaDao.imprimirDatos(tareasFichero);
+                    break;
+
+                case 6:
+                    System.out.println("Seleccione las tareas que quiere marcar como completadas:");
+                    id = Integer.parseInt(entrada.nextLine());
+                    tareaDao.completarTarea(id);
+                    if(tareaDao.completarTarea(id) == true) {
+                        System.out.println("La tarea se completó con éxito.");
+                    } else {
+                        System.out.println("Dicho id no existe en la lista.");
+                    }
                     break;
 
                 case 0:
