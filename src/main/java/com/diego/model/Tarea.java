@@ -11,6 +11,7 @@ public class Tarea {
     private LocalDateTime fecha;
     private String descripcion;
     private boolean completada;
+    private int id_categoria;
 
     public int getId() {
         return id;
@@ -50,5 +51,13 @@ public class Tarea {
 
     public void setCompletada(boolean completada) {
         this.completada = completada;
+    }
+
+    public int getId_categoria() {
+        return id_categoria;
+    }
+
+    public void setId_categoria(int id_categoria) {
+        this.id_categoria = id_categoria;
     }
 }

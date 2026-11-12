@@ -18,7 +18,7 @@ public class TareaDAO {
 
         List<Tarea> tareas = new ArrayList<>();
 
-        String sql = "Select id, nombre, fecha, descripcion, completada FROM tareas";
+        String sql = "Select id, nombre, fecha, descripcion, completada, id_categoria FROM tareas";
 
         try(
                 Connection conexion = Conexion.conectar();

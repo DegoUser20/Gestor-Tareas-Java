@@ -58,7 +58,13 @@ public class App
                     System.out.println("Mostrar tareas disponibles... ");
                     List<Tarea> tareas = tareaDao.obtenerTareas();
                     for (Tarea t: tareas) {
-                        System.out.println(t.getId() + " - " + t.getNombre() + " - " + t.getDescripcion() + " - " +  t.getFecha() + " - " + t.isCompletada());
+                        String estado;
+                        if(t.isCompletada()) {
+                            estado = "completada ";
+                        } else {
+                            estado = "pendiente ";
+                        }
+                        System.out.println(t.getId() + " - " + t.getNombre() + " - " + t.getDescripcion() + " - " +  t.getFecha() + " - " + estado);
                     }
                     break;
 
