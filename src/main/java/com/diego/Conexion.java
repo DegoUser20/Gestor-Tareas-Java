@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 
 public class Conexion {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/Tareas";
-    private static final String usuario = "root";
-    private static final String password = "12345";
+    private static final String URL = "DB_URL";
+    private static final String usuario = "DB_USER";
+    private static final String password = "DB_PASSWORD";
 
     public static Connection conectar() throws Exception {
         return DriverManager.getConnection(URL, usuario, password);
