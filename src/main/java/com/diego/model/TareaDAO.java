@@ -18,7 +18,19 @@ public class TareaDAO {
 
         List<Tarea> tareas = new ArrayList<>();
 
-        String sql = "Select id, nombre, fecha, descripcion, completada, id_categoria FROM tareas";
+        String sql = """
+                     SELECT
+                            tareas.id,
+                            tareas.nombre,
+                            tareas.fecha,
+                            tareas.descripcion,
+                            tareas.id_categoria,
+                            tareas.completada,
+                            categorias.nombre AS nombre_categoria
+                            FROM tareas
+                            INNER JOIN categorias
+                            ON tareas.id_categoria = categorias.id_categoria;
+                    """;
 
         try(
                 Connection conexion = Conexion.conectar();
@@ -38,6 +50,9 @@ public class TareaDAO {
                 tarea.setDescripcion(
                         rs.getString("Descripcion")
                 );
+                tarea.setId_categoria(rs.getInt("id_categoria"));
+                //Recuperar el nombre de la categoría
+                tarea.setNombreCategoria(rs.getString("nombre_categoria"));
                 tarea.setCompletada(rs.getBoolean("completada"));
                 tareas.add(tarea);
             }
@@ -85,18 +100,18 @@ public class TareaDAO {
     }
 
     //Instancia para Editar una tarea
-    public void editarTareas(int id, String nombre, String descripcion){
+    public void editarTareas(int id, String nombre, String descripcion, boolean completada){
 
-        String sql = "UPDATE tareas SET nombre = ?, descripcion = ? WHERE id = ?";
+        String sql = "UPDATE tareas SET nombre = ?, descripcion = ?, completada = ? WHERE id = ?";
 
         //Validación: Comprobar que nombre y descripción no sean vacíos.
-        if(nombre == null || nombre.trim().isEmpty() && descripcion == null || descripcion.trim().isEmpty()) {
+        if(nombre == null || nombre.trim().isEmpty() || descripcion == null || descripcion.trim().isEmpty()) {
             System.out.println("Editar tarea: no puede editar una tarea con campos vacios");
             return;
         }
 
         //Comprobar que el nombre pase de los 30 caracteres
-        if(nombre.length() > 31) {
+        if(nombre.length() > 30) {
             System.out.println("El nombre no puede sobrepasar el limite de caracteres (30)");
             return;
         }
@@ -108,8 +123,10 @@ public class TareaDAO {
         ) {
             ps.setString(1, nombre);
             ps.setString(2, descripcion);
-            ps.setInt(3, id);
+            ps.setBoolean(3, completada);
+            ps.setInt(4, id);
 
+            System.out.println("Estado enviado a MySQL: " + completada);
             int filasActualizar = ps.executeUpdate();
 
             if (filasActualizar > 0) {

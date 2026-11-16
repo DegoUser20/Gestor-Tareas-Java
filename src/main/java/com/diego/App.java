@@ -49,7 +49,7 @@ public class App
             System.out.println("5. Imprimir tareas en fichero");
             System.out.println("6. Completar tarea");
             System.out.println("0. Salir");
-            System.out.println("Elije una opción");
+            System.out.println("Elije una opción: ");
 
             opcion = Integer.parseInt(entrada.nextLine());
 
@@ -64,7 +64,7 @@ public class App
                         } else {
                             estado = "pendiente ";
                         }
-                        System.out.println(t.getId() + " - " + t.getNombre() + " - " + t.getDescripcion() + " - " +  t.getFecha() + " - " + estado);
+                        System.out.println(t.getId() + " - " + t.getNombre() + " - " + t.getDescripcion() + " - " +  t.getFecha() + " - " + t.getId_categoria() + " - " + t.getNombreCategoria() + " - " + estado);
                     }
                     break;
 
@@ -93,7 +93,12 @@ public class App
                     System.out.println("Escribe la descripcion para cambiarlo.");
                     descripcion = entrada.nextLine();
 
-                    tareaDao.editarTareas(id, nombre, descripcion);
+                    System.out.println("¿La tarea está completada? (true/false)");
+                    boolean completada = Boolean.parseBoolean(entrada.nextLine());
+
+                    System.out.println("Estado recibido: " + completada);
+
+                    tareaDao.editarTareas(id, nombre, descripcion, completada);
 
                     break;
                 case 4:

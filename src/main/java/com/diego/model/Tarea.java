@@ -12,6 +12,7 @@ public class Tarea {
     private String descripcion;
     private boolean completada;
     private int id_categoria;
+    private String nombreCategoria;
 
     public int getId() {
         return id;
@@ -59,5 +60,13 @@ public class Tarea {
 
     public void setId_categoria(int id_categoria) {
         this.id_categoria = id_categoria;
+    }
+
+    public String getNombreCategoria() {
+        return nombreCategoria;
+    }
+
+    public void setNombreCategoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
     }
 }
